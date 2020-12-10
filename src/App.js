@@ -22,10 +22,21 @@ class App extends React.Component {
 
   componentDidMount() {
     //Lets us know when the state of the use changes
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
-      //   this.setState({ currentUser: user });
-      //   console.log('felix is doing some mounting');
-      createUserProfileDocument(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+        });
+      } else {
+        this.setState({ currentUser: userAuth });
+      }
     });
   }
 

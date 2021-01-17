@@ -27,10 +27,10 @@ const cartReducer = (state = INITIAL_STATE, action) => {
         )
       };
     case CartActionTypes.REMOVE_ITEM:
-      return({
-          ...state,
-          cartItems: removeItemFromCart(state.cartItems, action.payload)
-      })
+      return {
+        ...state,
+        cartItems: removeItemFromCart(state.cartItems, action.payload)
+      };
     default:
       return state;
   }
